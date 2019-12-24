@@ -1,8 +1,8 @@
-const path    = require('path');
-const merge   = require('webpack-merge');
-const common  = require('./webpack.common.js');
-const webpack = require('webpack');
-const theme   = require('../src/theme');
+const path      = require('path');
+const merge     = require('webpack-merge');
+const common    = require('./webpack.common.js');
+const webpack   = require('webpack');
+const darkTheme = require('@ant-design/dark-theme');
 
 module.exports = merge(common, {
     mode      : 'development',
@@ -23,15 +23,24 @@ module.exports = merge(common, {
         rules : [
             {
                 test : /\.scss$/,
+                exclude : /node_models/,
                 use  : [
                     'style-loader',
-                    'css-loader',
-                    'scss-loader'
+                    {
+                        loader  : 'css-loader',
+                        options : {
+                            modules : {
+                                localIdentName : '[path][name]--[local]--[hash:base64:5]'
+                            },
+                        }
+                    },
+                    'sass-loader',
+                    'postcss-loader'
                 ]
             },
             {
-                test : /\.css$/,
-                use  : [
+                test    : /\.css$/,
+                use     : [
                     'style-loader',
                     'css-loader',
                     'postcss-loader'
@@ -42,10 +51,11 @@ module.exports = merge(common, {
                 use  : [
                     'style-loader',
                     'css-loader',
+                    'less-loader',
                     'postcss-loader',
                     {
                         loader  : 'less-loader',
-                        options : {'modifyVars' : theme, 'javascriptEnabled' : true}
+                        options : {modifyVars : darkTheme}
                     }
                 ]
             }

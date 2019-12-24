@@ -1,10 +1,9 @@
 const path              = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const theme             = require('../src/theme');
 
 module.exports = {
     entry   : {
-        app : './src/main.js',
+        app : './src/Application.js',
     },
     plugins : [
         new HtmlWebpackPlugin({
@@ -18,7 +17,7 @@ module.exports = {
         path     : path.resolve(__dirname, '../dist')
     },
     resolve : {
-        extensions : ['.js', '.css', '.scss', '.less']
+        extensions : ['.js', '.css', '.scss', '.less', '.woff2']
     },
     module  : {
         rules : [
@@ -31,10 +30,10 @@ module.exports = {
             {
                 test    : /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
                 loader  : 'url-loader',
-                include : /fonts?/,
+                include : path.resolve(__dirname, '../src/assets'),
                 options : {
                     limit : 1024,
-                    name  : 'fonts/[name].[hash:7].[ext]'
+                    name  : 'assets/fonts/[name].[hash:7].[ext]'
                 }
             },
             {
@@ -43,7 +42,7 @@ module.exports = {
                 exclude : /fonts?/,
                 options : {
                     limit : 4096,
-                    name  : 'images/[name].[hash:7].[ext]'
+                    name  : 'assets/images/[name].[hash:7].[ext]'
                 }
             },
             {
@@ -51,7 +50,7 @@ module.exports = {
                 loader  : 'url-loader',
                 options : {
                     limit : 4096,
-                    name  : 'media/[name].[hash:7].[ext]'
+                    name  : 'assets/media/[name].[hash:7].[ext]'
                 }
             },
         ]
